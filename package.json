@@ -1,7 +1,7 @@
 {
   "name": "ecomap-backend",
   "version": "0.0.1",
-  "description": "",
+  "description": "<p align=\"center\">   <a href=\"http://nestjs.com/\" target=\"blank\"><img src=\"https://nestjs.com/img/logo_text.svg\" width=\"320\" alt=\"Nest Logo\" /></a> </p>",
   "author": "",
   "license": "MIT",
   "scripts": {
@@ -23,6 +23,7 @@
     "@nestjs/common": "^6.10.14",
     "@nestjs/core": "^6.10.14",
     "@nestjs/platform-express": "^6.10.14",
+    "config": "^3.2.5",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.0",
     "rxjs": "^6.5.4"
@@ -62,5 +63,18 @@
     },
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
-  }
+  },
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/szkatalin/ecomap-backend.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/szkatalin/ecomap-backend/issues"
+  },
+  "homepage": "https://github.com/szkatalin/ecomap-backend#readme"
 }
