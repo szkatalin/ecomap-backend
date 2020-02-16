@@ -1,6 +1,6 @@
-import * as env from "dotenv";
-import { NestFactory } from "@nestjs/core";
-import { AppModule } from "./app.module";
+import * as env from 'dotenv';
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
 import * as bodyParser from 'body-parser';
 import 'reflect-metadata';
 env.config();
