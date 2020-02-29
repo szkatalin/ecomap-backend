@@ -12,7 +12,7 @@ async function bootstrap() {
   app.use(bodyParser.urlencoded({ extended: false }));
   app.enableCors();
 
-  const port = process.env.PORT || '80';
+  const port = process.env.PORT || '3000';
   console.log('App is running on port: ' + port);
   await app.listen(port);
 }
