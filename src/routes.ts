@@ -1,5 +1,6 @@
-import {RequestMethod} from "@nestjs/common";
+import { RequestMethod } from "@nestjs/common";
 
 export default [
-    { path: '/place', method: RequestMethod.GET }
+    { path: '/places', method: RequestMethod.GET },
+    { path: '/auth/user', method: RequestMethod.GET }
 ];

@@ -1,0 +1,5 @@
+export enum PlaceCategory {
+    OTHER = 'OTHER',
+    ZERO_WASTE_SHOP = 'ZERO_WASTE_SHOP',
+    WATER_REFILL_POINT = 'WATER_REFILL_POINT'
+}
