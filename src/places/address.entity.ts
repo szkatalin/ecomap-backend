@@ -14,9 +14,9 @@ export class Address extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ApiProperty()
-  @Column()
-  country: string;
+  // @ApiProperty()
+  // @Column()
+  // country: string;
 
   @ApiProperty()
   @Column()
