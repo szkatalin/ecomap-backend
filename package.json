@@ -11,10 +11,11 @@
       "foreman": "foreman start -f Procfile.dev",
       "prestart:prod": "tsc",
       "start:prod": "node dist/main.js",
-      "migrations:generate": "ts-node ./node_modules/typeorm/cli.js migration:generate",
       "migration:run": "ts-node ./node_modules/typeorm/cli.js migration:run",
       "migration:revert": "ts-node ./node_modules/typeorm/cli.js migration:revert",
-      "migration:run:prod": "tsc && ts-node ./node_modules/typeorm/cli.js migration:run"
+      "migration:run:prod": "tsc && ts-node ./node_modules/typeorm/cli.js migration:run",
+      "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
+      "migrations:generate": "typeorm migration:generate -n migration"
    },
    "dependencies": {
       "@nestjs/common": "^6.11.8",
