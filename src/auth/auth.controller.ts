@@ -1,9 +1,9 @@
-import { Controller, Get, Req } from '@nestjs/common';
+import { Controller, Get, Req } from "@nestjs/common";
 
-@Controller('auth')
+@Controller("auth")
 export class AuthController {
-    @Get('user')
-    public user(@Req() req) {
-        return {user: req.user};
-    }
+  @Get("user")
+  public user(@Req() req) {
+    return { user: req.user };
+  }
 }
