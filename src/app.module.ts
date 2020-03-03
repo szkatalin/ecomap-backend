@@ -8,7 +8,16 @@ import routes from "./routes";
 import { AuthModule } from "./auth/auth.module";
 
 @Module({
-  imports: [TypeOrmModule.forRoot(), PlacesModule, AuthModule],
+  imports: [
+    TypeOrmModule.forRoot({
+      url: process.env.DATABASE_URL,
+      autoLoadEntities: true,
+      synchronize: true,
+      migrationsRun: true
+    }),
+    PlacesModule,
+    AuthModule
+  ],
   controllers: [AppController],
   providers: [AppService]
 })
