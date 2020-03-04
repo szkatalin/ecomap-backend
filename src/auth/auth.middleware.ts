@@ -1,6 +1,6 @@
-import { Injectable, NestMiddleware } from "@nestjs/common";
-import * as jwt from "express-jwt";
-import { expressJwtSecret } from "jwks-rsa";
+import { Injectable, NestMiddleware } from '@nestjs/common';
+import * as jwt from 'express-jwt';
+import { expressJwtSecret } from 'jwks-rsa';
 
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {
@@ -14,12 +14,12 @@ export class AuthMiddleware implements NestMiddleware {
       }),
       audience: `${process.env.AUTH0_AUDIENCE}`,
       issuer: `https://${process.env.AUTH0_DOMAIN}/`,
-      algorithm: "RS256"
+      algorithm: 'RS256'
     })(req, res, err => {
       if (err) {
         const status = err.status || 500;
         const message =
-          err.message || "Sorry, we were unable to process your request.";
+          err.message || 'Sorry, we were unable to process your request.';
         return res.status(status).send({
           message
         });

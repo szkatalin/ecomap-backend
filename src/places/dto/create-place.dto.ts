@@ -1,20 +1,21 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { Address } from "../address.entity";
-import { PlaceCategory } from "../place-category.enum";
+import { ApiExtraModels, ApiProperty } from '@nestjs/swagger';
+import { Address } from '../model/address.entity';
+import { PlaceCategoryDetails } from '../model/place-category-details.entity';
 
+@ApiExtraModels()
 export class CreatePlaceDto {
-  @ApiProperty()
-  title: string;
-
-  @ApiProperty()
-  address: Address;
-
-  @ApiProperty()
-  addressId: number;
-
-  @ApiProperty()
-  description: string;
-
-  @ApiProperty({ enum: Object.values(PlaceCategory) })
-  category: PlaceCategory;
+  // @ApiProperty()
+  // title: string;
+  //
+  // @ApiProperty()
+  // address: Address;
+  //
+  // @ApiProperty()
+  // addressId: number;
+  //
+  // @ApiProperty()
+  // description: string;
+  //
+  // @ApiProperty()
+  // category: PlaceCategoryDetails;
 }

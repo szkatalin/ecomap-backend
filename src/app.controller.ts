@@ -1,6 +1,6 @@
-import { Body, Controller, Get } from "@nestjs/common";
-import { Place } from "./places/place.entity";
-import { AppService } from "./app.service";
+import { Body, Controller, Get } from '@nestjs/common';
+import { Place } from './places/model/place.entity';
+import { AppService } from './app.service';
 
 @Controller()
 export class AppController {
@@ -8,10 +8,10 @@ export class AppController {
 
   @Get()
   public root(@Body() place: Place): string {
-    return "Backend is running! Hurray!!!!";
+    return 'Backend is running! Hurray!!!!';
   }
 
-  @Get("test")
+  @Get('test')
   public test() {
     return this.appService.test();
   }

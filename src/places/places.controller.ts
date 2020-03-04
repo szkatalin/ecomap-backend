@@ -1,11 +1,11 @@
-import { Controller, Get } from "@nestjs/common";
+import { Controller, Get } from '@nestjs/common';
 
-@Controller("places")
+@Controller('places')
 export class PlacesController {
   constructor() {}
 
   @Get()
   async test() {
-    return "protected";
+    return 'protected';
   }
 }
