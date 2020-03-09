@@ -33,19 +33,16 @@ export class Place extends BaseEntity {
 
   @ApiProperty()
   @Column()
-  addressId: number;
-
-  @ApiProperty()
-  @Column()
   description: string;
 
-  @ApiProperty()
+  @ApiProperty({ type: PlaceCategoryDetails })
   @OneToMany(
     () => PlaceCategoryDetails,
     placeCategoryDetails => placeCategoryDetails.place
   )
-  category: PlaceCategoryDetails;
+  categoryDetails: PlaceCategoryDetails;
 
+  @ApiProperty({ type: PlaceOperationalEvent, isArray: true })
   @OneToMany(
     () => PlaceOperationalEvent,
     operationalEvents => operationalEvents.place

@@ -14,7 +14,10 @@
       "migration:run": "ts-node ./node_modules/typeorm/cli.js migration:run",
       "migration:revert": "ts-node ./node_modules/typeorm/cli.js migration:revert",
       "migration:run:prod": "tsc && ts-node ./node_modules/typeorm/cli.js migration:run",
-      "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
+      "schema:sync": "ts-node ./node_modules/typeorm/cli.js schema:sync",
+      "schema:drop": "ts-node ./node_modules/typeorm/cli.js schema:drop",
+      "cache:clear": "ts-node ./node_modules/typeorm/cli.js cache:clear",
+      "migration:create": "ts-node ./node_modules/typeorm/cli.js migration:create -n migration",
       "migrations:generate": "typeorm migration:generate -n migration"
    },
    "dependencies": {
@@ -24,7 +27,7 @@
       "@nestjs/microservices": "^6.11.8",
       "@nestjs/passport": "^6.2.0",
       "@nestjs/platform-express": "^6.11.8",
-      "@nestjs/swagger": "^4.3.1",
+      "@nestjs/swagger": "^4.3.2",
       "@nestjs/testing": "^6.11.8",
       "@nestjs/typeorm": "^6.3.3",
       "@nestjs/websockets": "^6.11.8",

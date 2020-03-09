@@ -1,11 +1,12 @@
 import { Module } from '@nestjs/common';
-import { PlacesService } from './places.service';
-import { PlacesController } from './places.controller';
+import { PlaceService } from './place.service';
+import { PlaceController } from './place.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Address } from './model/address.entity';
 import { Place } from './model/place.entity';
 import { PlaceOperationalEvent } from './model/place-operational-event.entity';
 import { PlaceCategoryDetails } from './model/place-category-details.entity';
+import { UserModule } from '../user/user.module';
 
 @Module({
   imports: [
@@ -14,9 +15,10 @@ import { PlaceCategoryDetails } from './model/place-category-details.entity';
       Address,
       PlaceOperationalEvent,
       PlaceCategoryDetails
-    ])
+    ]),
+    UserModule
   ],
-  providers: [PlacesService],
-  controllers: [PlacesController]
+  providers: [PlaceService],
+  controllers: [PlaceController]
 })
-export class PlacesModule {}
+export class PlaceModule {}

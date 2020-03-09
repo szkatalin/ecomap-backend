@@ -2,10 +2,9 @@ import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AuthMiddleware } from './auth/auth.middleware';
-import { PlacesModule } from './places/places.module';
+import { AuthMiddleware } from './user/auth/auth.middleware';
+import { PlaceModule } from './place/place.module';
 import routes from './routes';
-import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 
 @Module({
@@ -16,8 +15,7 @@ import { UserModule } from './user/user.module';
       synchronize: true,
       migrationsRun: true
     }),
-    PlacesModule,
-    AuthModule,
+    PlaceModule,
     UserModule
   ],
   controllers: [AppController],

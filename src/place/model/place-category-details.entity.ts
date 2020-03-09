@@ -12,6 +12,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 @Entity()
 export class PlaceCategoryDetails extends BaseEntity {
+  @ApiProperty()
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -21,11 +22,11 @@ export class PlaceCategoryDetails extends BaseEntity {
 
   @ApiProperty({ enum: Object.keys(CategoryTypes), isArray: true })
   @Column({ type: 'enum', enum: CategoryTypes, array: true })
-  type: CategoryTypes[];
+  types: CategoryTypes[];
 
   @OneToMany(
     () => Place,
-    place => place.category
+    place => place.categoryDetails
   )
   place: Place;
 }

@@ -1,10 +1,11 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import * as jwt from 'express-jwt';
 import { expressJwtSecret } from 'jwks-rsa';
+import { NextFunction, Request, Response } from 'express';
 
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {
-  use(req, res, next) {
+  use(req: Request, res: Response, next: NextFunction) {
     jwt({
       secret: expressJwtSecret({
         cache: true,
