@@ -6,6 +6,7 @@ import { AuthMiddleware } from './user/auth/auth.middleware';
 import { PlaceModule } from './place/place.module';
 import routes from './routes';
 import { UserModule } from './user/user.module';
+import { RecommendationModule } from './recommendation/recommendation.module';
 
 @Module({
   imports: [
@@ -16,7 +17,8 @@ import { UserModule } from './user/user.module';
       migrationsRun: true
     }),
     PlaceModule,
-    UserModule
+    UserModule,
+    RecommendationModule
   ],
   controllers: [AppController],
   providers: [AppService]

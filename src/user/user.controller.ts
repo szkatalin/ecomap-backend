@@ -2,7 +2,7 @@ import { Body, Controller, Get, Param, Patch, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { GetUser } from './decorators/get-user.decorator';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { RoleGuard } from './guards/role.guard';
+import { RoleGuard } from './guard/role.guard';
 import { Roles } from './decorators/roles.decorator';
 import { Role } from './model/role.enum';
 

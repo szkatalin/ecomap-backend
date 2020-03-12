@@ -7,7 +7,7 @@ import {
   Unique
 } from 'typeorm';
 import { Role } from './role.enum';
-import { PlaceOperationalEvent } from '../../place/model/place-operational-event.entity';
+import { PlaceOperationalEvent } from '../../recommendation/model/place-operational-event.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import { type } from 'os';
 

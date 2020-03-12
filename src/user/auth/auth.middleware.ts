@@ -5,7 +5,7 @@ import { NextFunction, Request, Response } from 'express';
 
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {
-  use(req: Request, res: Response, next: NextFunction) {
+  public use(req: Request, res: Response, next: NextFunction) {
     jwt({
       secret: expressJwtSecret({
         cache: true,

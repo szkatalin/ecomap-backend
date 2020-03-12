@@ -1,10 +1,10 @@
 import { RequestMethod } from '@nestjs/common';
 
 export default [
-  // USER
+  // USERS
   { path: '/users/me', method: RequestMethod.GET },
   { path: '/users', method: RequestMethod.GET },
 
-  // PLACE
+  // PLACES
   { path: '/places', method: RequestMethod.GET }
 ];
