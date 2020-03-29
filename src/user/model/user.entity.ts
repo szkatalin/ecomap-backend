@@ -1,15 +1,8 @@
-import {
-  Column,
-  Entity,
-  OneToMany,
-  PrimaryColumn,
-  PrimaryGeneratedColumn,
-  Unique
-} from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryColumn, Unique } from 'typeorm';
 import { Role } from './role.enum';
-import { PlaceOperationalEvent } from '../../recommendation/model/place-operational-event.entity';
+import { OperationalEvent } from '../../recommendation/model/operational-event.entity';
 import { ApiProperty } from '@nestjs/swagger';
-import { type } from 'os';
+import { Recommendation } from '../../recommendation/model/recommendation.entity';
 
 @Entity()
 @Unique(['id'])
@@ -22,10 +15,19 @@ export class User {
   @Column({ type: 'enum', enum: Role, default: Role.USER })
   role: Role;
 
-  @ApiProperty()
+  @ApiProperty({ type: () => OperationalEvent, isArray: true })
   @OneToMany(
-    () => PlaceOperationalEvent,
-    placeOperationEvents => placeOperationEvents.user
+    () => OperationalEvent,
+    operationEvents => operationEvents.reviewerUser,
+    { cascade: true }
   )
-  placeOperationEvents: PlaceOperationalEvent[];
+  operationalEvents: OperationalEvent[];
+
+  @ApiProperty({ type: () => Recommendation, isArray: true })
+  @OneToMany(
+    () => Recommendation,
+    recommendation => recommendation.referralUser,
+    { cascade: true }
+  )
+  recommendations: Recommendation[];
 }

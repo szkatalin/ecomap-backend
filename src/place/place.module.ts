@@ -4,21 +4,22 @@ import { PlaceController } from './place.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Address } from './model/address.entity';
 import { Place } from './model/place.entity';
-import { PlaceOperationalEvent } from '../recommendation/model/place-operational-event.entity';
-import { PlaceCategoryDetails } from './model/place-category-details.entity';
+import { PlaceCategoryDetail } from './model/place-category-detail.entity';
 import { UserModule } from '../user/user.module';
+import { PlaceRepository } from './place.repository';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([
       Place,
       Address,
-      PlaceOperationalEvent,
-      PlaceCategoryDetails
+      PlaceCategoryDetail,
+      PlaceRepository
     ]),
     UserModule
   ],
   providers: [PlaceService],
-  controllers: [PlaceController]
+  controllers: [PlaceController],
+  exports: [PlaceService]
 })
 export class PlaceModule {}

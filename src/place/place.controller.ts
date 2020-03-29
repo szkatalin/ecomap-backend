@@ -1,16 +1,22 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
-import { RoleGuard } from '../user/guard/role.guard';
-import { Roles } from '../user/decorators/roles.decorator';
-import { Role } from '../user/model/role.enum';
+import { Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { PlaceService } from './place.service';
+import { Place } from './model/place.entity';
 
 @ApiTags('Place')
 @Controller('places')
 export class PlaceController {
-  @UseGuards(RoleGuard)
-  @Roles(Role.USER, Role.ADMIN)
+  constructor(private placeService: PlaceService) {}
+
   @Get()
-  testRoleGuard() {
-    return 'test';
+  @ApiOperation({ summary: 'Get all places' })
+  getPlaces(): Promise<Place[]> {
+    return this.placeService.getAllPlaces();
+  }
+
+  @Get(':id')
+  @ApiOperation({ summary: 'Get place by id' })
+  getPlaceById(@Param('id', ParseIntPipe) placeId: number): Promise<Place> {
+    return this.placeService.getPlaceById(placeId);
   }
 }

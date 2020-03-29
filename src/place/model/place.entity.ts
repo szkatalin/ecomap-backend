@@ -1,14 +1,33 @@
-import { Entity, OneToMany } from 'typeorm';
+import { Entity, JoinColumn, OneToMany, OneToOne } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
-import { PlaceOperationalEvent } from '../../recommendation/model/place-operational-event.entity';
-import { BasePlace } from './base-place.entity';
+import { BasePlace } from './base-place';
+import { PlaceCategoryDetail } from './place-category-detail.entity';
+import { Address } from './address.entity';
+import { Recommendation } from '../../recommendation/model/recommendation.entity';
 
 @Entity()
 export class Place extends BasePlace {
-  @ApiProperty({ type: PlaceOperationalEvent, isArray: true })
-  @OneToMany(
-    () => PlaceOperationalEvent,
-    operationalEvents => operationalEvents.place
+  @ApiProperty({ type: Address })
+  @OneToOne(
+    () => Address,
+    address => address.place
   )
-  operationalEvents: PlaceOperationalEvent[];
+  @JoinColumn()
+  address: Address;
+
+  @ApiProperty({ type: PlaceCategoryDetail, isArray: true })
+  @OneToMany(
+    () => PlaceCategoryDetail,
+    placeCategoryDetails => placeCategoryDetails.place,
+    { cascade: true }
+  )
+  categoryDetails: PlaceCategoryDetail[];
+
+  @ApiProperty({ type: Recommendation, isArray: true })
+  @OneToMany(
+    () => Recommendation,
+    recommendations => recommendations.place,
+    { cascade: true }
+  )
+  recommendations: Recommendation[];
 }

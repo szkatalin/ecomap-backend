@@ -1,17 +1,12 @@
-import {
-  BaseEntity,
-  Column,
-  Entity,
-  OneToMany,
-  PrimaryGeneratedColumn
-} from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { PlaceCategory } from './place-category.enum';
 import { CategoryTypes } from './category-types.enum';
-import { Place } from './place.entity';
 import { ApiProperty } from '@nestjs/swagger';
+import { Place } from './place.entity';
+import { RecommendedPlace } from '../../recommendation/model/recommended-place.entity';
 
 @Entity()
-export class PlaceCategoryDetails extends BaseEntity {
+export class PlaceCategoryDetail {
   @ApiProperty()
   @PrimaryGeneratedColumn()
   id: number;
@@ -24,9 +19,17 @@ export class PlaceCategoryDetails extends BaseEntity {
   @Column({ type: 'enum', enum: CategoryTypes, array: true })
   types: CategoryTypes[];
 
-  @OneToMany(
+  @ApiProperty({ type: () => Place })
+  @ManyToOne(
     () => Place,
     place => place.categoryDetails
   )
   place: Place;
+
+  @ApiProperty({ type: () => RecommendedPlace })
+  @ManyToOne(
+    () => RecommendedPlace,
+    recommendedPlace => recommendedPlace.categoryDetails
+  )
+  recommendedPlace: RecommendedPlace;
 }

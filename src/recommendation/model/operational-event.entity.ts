@@ -1,47 +1,41 @@
 import {
   BaseEntity,
+  BeforeInsert,
   Column,
   Entity,
+  JoinColumn,
   ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from '../../user/model/user.entity';
-import { OperationType } from './operation-type.enum';
-import { Place } from '../../place/model/place.entity';
 import { IsOptional } from 'class-validator';
 import { DecisionType } from './decision-type.enum';
 import { Recommendation } from './recommendation.entity';
 
 @Entity()
-export class PlaceOperationalEvent extends BaseEntity {
+export class OperationalEvent extends BaseEntity {
   @ApiProperty()
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ApiProperty({ type: () => Place })
-  @ManyToOne(
-    () => Place,
-    place => place.operationalEvents
-  )
-  place?: Place;
-
   @ApiProperty({ type: () => Recommendation })
   @OneToOne(
     () => Recommendation,
-    recommendation => recommendation.placeOperationalEvent
+    recommendation => recommendation.operationalEvent
   )
+  @JoinColumn()
   recommendation: Recommendation;
 
   @ApiProperty()
   @Column('timestamp')
   dateTime: Date;
 
-  @ApiProperty()
+  @ApiProperty({ type: () => User })
   @ManyToOne(
     () => User,
-    user => user.placeOperationEvents
+    user => user.operationalEvents
   )
   reviewerUser: User;
 
@@ -53,4 +47,9 @@ export class PlaceOperationalEvent extends BaseEntity {
   @Column()
   @IsOptional()
   comment?: string;
+
+  @BeforeInsert()
+  updateDateTime() {
+    this.dateTime = new Date();
+  }
 }

@@ -27,7 +27,8 @@ export class UserRepository extends Repository<User> {
 
     user.id = id;
     user.role = Role.USER;
-    user.placeOperationEvents = [];
+    user.operationalEvents = [];
+    user.recommendations = [];
 
     return await this.save(user);
   }

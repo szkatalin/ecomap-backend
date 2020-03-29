@@ -2,12 +2,13 @@ import {
   BaseEntity,
   Column,
   Entity,
-  JoinColumn,
+  ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn
 } from 'typeorm';
-import { Place } from './place.entity';
 import { ApiProperty } from '@nestjs/swagger';
+import { Place } from './place.entity';
+import { RecommendedPlace } from '../../recommendation/model/recommended-place.entity';
 
 @Entity()
 export class Address extends BaseEntity {
@@ -27,10 +28,19 @@ export class Address extends BaseEntity {
   @Column()
   city: string;
 
+  @ApiProperty({ type: [Number] })
+  @Column('float', { array: true, nullable: true })
+  coordinates?: number[];
+
   @OneToOne(
     () => Place,
-    place => place.address,
-    { eager: true }
+    place => place.address
   )
   place: Place;
+
+  @ManyToOne(
+    () => RecommendedPlace,
+    recommendedPlace => recommendedPlace.address
+  )
+  recommendedPlace: RecommendedPlace;
 }
