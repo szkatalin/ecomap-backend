@@ -4,7 +4,7 @@ import {
   Entity,
   ManyToOne,
   OneToOne,
-  PrimaryGeneratedColumn
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { Place } from './place.entity';
@@ -28,19 +28,20 @@ export class Address extends BaseEntity {
   @Column()
   city: string;
 
+  @ApiProperty()
+  @Column()
+  streetAddress: string;
+
   @ApiProperty({ type: [Number] })
   @Column('float', { array: true, nullable: true })
   coordinates?: number[];
 
-  @OneToOne(
-    () => Place,
-    place => place.address
-  )
+  @OneToOne(() => Place, (place) => place.address)
   place: Place;
 
   @ManyToOne(
     () => RecommendedPlace,
-    recommendedPlace => recommendedPlace.address
+    (recommendedPlace) => recommendedPlace.address
   )
   recommendedPlace: RecommendedPlace;
 }

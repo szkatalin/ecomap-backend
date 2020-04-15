@@ -43,6 +43,7 @@
       "jwks-rsa": "^1.7.0",
       "morgan": "^1.9.0",
       "mysql": "^2.14.1",
+      "node-geocoder": "^3.27.0",
       "passport": "^0.4.1",
       "passport-jwt": "^4.0.0",
       "pg": "^7.18.2",

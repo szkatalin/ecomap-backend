@@ -7,13 +7,12 @@ import { CreateUserDto } from './dto/create-user.dto';
 export class UserRepository extends Repository<User> {
   async getAllUsers() {
     const query = this.createQueryBuilder('user');
-    // TODO filtering
     return await query.getMany();
   }
 
   async getUserById(id: string): Promise<User> {
     const user = await this.findOne({
-      where: { id: id }
+      where: { id: id },
     });
     if (user) {
       return user;

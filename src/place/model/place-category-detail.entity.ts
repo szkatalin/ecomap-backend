@@ -12,24 +12,21 @@ export class PlaceCategoryDetail {
   id: number;
 
   @ApiProperty({ enum: Object.keys(PlaceCategory) })
-  @Column({ type: 'enum', enum: PlaceCategory })
+  @Column('enum', { enum: PlaceCategory })
   category: PlaceCategory;
 
   @ApiProperty({ enum: Object.keys(CategoryTypes), isArray: true })
-  @Column({ type: 'enum', enum: CategoryTypes, array: true })
+  @Column('enum', { enum: CategoryTypes, array: true })
   types: CategoryTypes[];
 
   @ApiProperty({ type: () => Place })
-  @ManyToOne(
-    () => Place,
-    place => place.categoryDetails
-  )
+  @ManyToOne(() => Place, (place) => place.categoryDetails)
   place: Place;
 
   @ApiProperty({ type: () => RecommendedPlace })
   @ManyToOne(
     () => RecommendedPlace,
-    recommendedPlace => recommendedPlace.categoryDetails
+    (recommendedPlace) => recommendedPlace.categoryDetails
   )
   recommendedPlace: RecommendedPlace;
 }

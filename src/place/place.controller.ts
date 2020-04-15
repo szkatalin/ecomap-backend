@@ -1,7 +1,15 @@
-import { Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Query,
+  ValidationPipe,
+} from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { PlaceService } from './place.service';
 import { Place } from './model/place.entity';
+import { GetPlacesFilterDto } from './dto/get-places-filter.dto';
 
 @ApiTags('Place')
 @Controller('places')
@@ -9,9 +17,11 @@ export class PlaceController {
   constructor(private placeService: PlaceService) {}
 
   @Get()
-  @ApiOperation({ summary: 'Get all places' })
-  getPlaces(): Promise<Place[]> {
-    return this.placeService.getAllPlaces();
+  @ApiOperation({ summary: 'Get places' })
+  getPlaces(
+    @Query(ValidationPipe) filterDto: GetPlacesFilterDto
+  ): Promise<Place[]> {
+    return this.placeService.getAllPlaces(filterDto);
   }
 
   @Get(':id')

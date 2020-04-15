@@ -54,7 +54,7 @@ export class RecommendationController {
     );
   }
 
-  @Post(':id')
+  @Post('places/:id')
   @ApiOperation({ summary: 'Add existing place recommendation' })
   addExistingPlaceRecommendation(
     @Param('id', ParseIntPipe) placeId: number,
@@ -70,7 +70,7 @@ export class RecommendationController {
     );
   }
 
-  @Post(':id/delete')
+  @Post('places/:id/delete')
   @ApiOperation({ summary: 'Add delete recommendation' })
   deletePlaceRecommendation(
     @Param('id', ParseIntPipe) placeId: number,

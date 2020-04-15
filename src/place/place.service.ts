@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PlaceRepository } from './place.repository';
 import { InjectRepository } from '@nestjs/typeorm';
+import { GetPlacesFilterDto } from './dto/get-places-filter.dto';
 
 @Injectable()
 export class PlaceService {
@@ -9,8 +10,8 @@ export class PlaceService {
     private placeRepository: PlaceRepository
   ) {}
 
-  async getAllPlaces() {
-    return await this.placeRepository.getAllPlaces();
+  async getAllPlaces(filterDto: GetPlacesFilterDto) {
+    return await this.placeRepository.getAllPlaces(filterDto);
   }
 
   async getPlaceById(id: number) {

@@ -1,13 +1,42 @@
 import { EntityRepository, Repository } from 'typeorm';
 import { Place } from './model/place.entity';
 import { Recommendation } from '../recommendation/model/recommendation.entity';
+import { GetPlacesFilterDto } from './dto/get-places-filter.dto';
 
 @EntityRepository(Place)
 export class PlaceRepository extends Repository<Place> {
-  async getAllPlaces() {
-    return await this.createQueryBuilder('place')
-      .leftJoinAndSelect('place.address', 'Address')
-      .getMany();
+  async getAllPlaces(filterDto: GetPlacesFilterDto) {
+    const { searchField, categories, types } = filterDto;
+    const query = this.createQueryBuilder('place')
+      .leftJoinAndSelect('place.address', 'address')
+      .leftJoinAndSelect('place.categoryDetails', 'placeCategoryDetail');
+
+    if (searchField) {
+      query.andWhere(
+        '(place.title LIKE :searchField OR place.description LIKE :searchField)',
+        { searchField: `%${searchField}%` }
+      );
+    }
+
+    if (categories) {
+      let categoriesList = categories.split(',');
+      for (const category of categoriesList) {
+        query.andWhere('placeCategoryDetail.category = :category', {
+          category,
+        });
+      }
+    }
+
+    if (types) {
+      let typeList = types.split(',');
+      for (const type of typeList) {
+        query.andWhere(`:type = ANY (placeCategoryDetail.types)`, {
+          type,
+        });
+      }
+    }
+
+    return await query.getMany();
   }
 
   async getPlaceById(id: number): Promise<Place> {

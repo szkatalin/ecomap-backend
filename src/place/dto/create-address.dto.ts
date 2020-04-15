@@ -10,6 +10,9 @@ export class CreateAddressDto {
   @ApiProperty()
   city: string;
 
+  @ApiProperty()
+  streetAddress: string;
+
   @ApiProperty({ type: [Number] })
   coordinates?: number[];
 }
