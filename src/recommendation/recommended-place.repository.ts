@@ -35,14 +35,16 @@ export class RecommendedPlaceRepository extends Repository<RecommendedPlace> {
       recommendedPlace.address = await address.save();
 
       let categoryDetails: PlaceCategoryDetail[] = [];
-      recommendedPlaceDto.placeCategoryDetails.map(async (detail) => {
-        let categoryDetail = new PlaceCategoryDetail();
+      if (recommendedPlaceDto.placeCategoryDetails) {
+        recommendedPlaceDto.placeCategoryDetails.map(async (detail) => {
+          let categoryDetail = new PlaceCategoryDetail();
 
-        categoryDetail.category = detail.category;
-        categoryDetail.types = detail.types;
+          categoryDetail.category = detail.category;
+          categoryDetail.types = detail.types;
 
-        categoryDetails.push(categoryDetail);
-      });
+          categoryDetails.push(categoryDetail);
+        });
+      }
 
       recommendedPlace.categoryDetails = categoryDetails;
 

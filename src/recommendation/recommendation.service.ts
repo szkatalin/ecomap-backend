@@ -9,6 +9,8 @@ import { DecisionType } from './model/decision-type.enum';
 import { PlaceService } from '../place/place.service';
 import { OperationalEvent } from './model/operational-event.entity';
 import { OperationType } from './model/operation-type.enum';
+import { User } from '../user/model/user.entity';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class RecommendationService {
@@ -19,49 +21,52 @@ export class RecommendationService {
     private readonly recommendedPlaceRepository: RecommendedPlaceRepository,
     @InjectRepository(OperationalEventRepository)
     private readonly operationalEventRepository: OperationalEventRepository,
-    private placeService: PlaceService
+    private placeService: PlaceService,
+    private userService: UserService
   ) {}
 
-  async getAllRecommendations() {
-    return await this.recommendationRepository.getAllRecommendations();
+  public async getAllRecommendations() {
+    return this.recommendationRepository.getAllRecommendations();
   }
 
-  async getRecommendationById(recommendationId: number) {
-    return await this.recommendationRepository.getRecommendationById(
+  public async getRecommendationById(recommendationId: number) {
+    return this.recommendationRepository.getRecommendationById(
       recommendationId
     );
   }
 
-  async createPlaceRecommendation(
+  public async createPlaceRecommendation(
     userId: string,
     recommendationDto: CreateRecommendationDto,
     placeId?: number
   ) {
-    let recommendedPlace = await this.recommendedPlaceRepository.createRecommendedPlace(
+    const user = await this.userService.getUserById(userId);
+
+    const recommendedPlace = await this.recommendedPlaceRepository.createRecommendedPlace(
       recommendationDto.recommendedPlace
     );
 
-    return await this.recommendationRepository.createPlaceRecommendation(
-      userId,
+    return this.recommendationRepository.createPlaceRecommendation(
+      user,
       recommendationDto,
       recommendedPlace,
       placeId
     );
   }
 
-  async deletePlaceRecommendation(
+  public async deletePlaceRecommendation(
     userId: string,
     placeId: number,
     comment: string
   ) {
-    return await this.recommendationRepository.deletePlaceRecommendation(
+    return this.recommendationRepository.deletePlaceRecommendation(
       userId,
       placeId,
       comment
     );
   }
 
-  async evaluateRecommendation(
+  public async evaluateRecommendation(
     recommendationId: number,
     userId: string,
     createOperationalEventDto: CreateOperationalEventDto

@@ -9,8 +9,8 @@ import { NotFoundException } from '@nestjs/common';
 
 @EntityRepository(Recommendation)
 export class RecommendationRepository extends Repository<Recommendation> {
-  async getAllRecommendations() {
-    return await this.createQueryBuilder('recommendation')
+  public async getAllRecommendations() {
+    return this.createQueryBuilder('recommendation')
       .leftJoinAndSelect('recommendation.recommendedPlace', 'recommendedPlace')
       .leftJoinAndSelect('recommendedPlace.address', 'Address')
       .leftJoinAndSelect('recommendedPlace.categoryDetails', 'CategoryDetails')
@@ -18,8 +18,8 @@ export class RecommendationRepository extends Repository<Recommendation> {
       .getMany();
   }
 
-  async getRecommendationById(recommendationId: number) {
-    return await this.createQueryBuilder('recommendation')
+  public async getRecommendationById(recommendationId: number) {
+    return this.createQueryBuilder('recommendation')
       .leftJoinAndSelect('recommendation.recommendedPlace', 'recommendedPlace')
       .leftJoinAndSelect('recommendedPlace.address', 'Address')
       .leftJoinAndSelect('recommendedPlace.categoryDetails', 'CategoryDetails')
@@ -28,13 +28,12 @@ export class RecommendationRepository extends Repository<Recommendation> {
       .getOne();
   }
 
-  async createPlaceRecommendation(
-    userId: string,
+  public async createPlaceRecommendation(
+    user: User,
     recommendationDto: CreateRecommendationDto,
     recommendedPlace: RecommendedPlace,
     placeId?: number
   ) {
-    const user = await this.manager.getRepository(User).findOne({ id: userId });
     const recommendation = new Recommendation();
 
     recommendation.referralUser = user;
@@ -54,10 +53,10 @@ export class RecommendationRepository extends Repository<Recommendation> {
       recommendation.operationType = OperationType.RECOMMENDATION;
     }
 
-    return await recommendation.save();
+    return recommendation.save();
   }
 
-  async deletePlaceRecommendation(
+  public async deletePlaceRecommendation(
     userId: string,
     placeId: number,
     comment: string
@@ -73,6 +72,6 @@ export class RecommendationRepository extends Repository<Recommendation> {
       .findOne({ id: placeId });
     recommendation.operationType = OperationType.DELETE_REQUEST;
 
-    return await recommendation.save();
+    return recommendation.save();
   }
 }

@@ -18,7 +18,7 @@ export class PlaceController {
 
   @Get()
   @ApiOperation({ summary: 'Get places' })
-  getPlaces(
+  public getPlaces(
     @Query(ValidationPipe) filterDto: GetPlacesFilterDto
   ): Promise<Place[]> {
     return this.placeService.getAllPlaces(filterDto);
@@ -26,7 +26,9 @@ export class PlaceController {
 
   @Get(':id')
   @ApiOperation({ summary: 'Get place by id' })
-  getPlaceById(@Param('id', ParseIntPipe) placeId: number): Promise<Place> {
+  public getPlaceById(
+    @Param('id', ParseIntPipe) placeId: number
+  ): Promise<Place> {
     return this.placeService.getPlaceById(placeId);
   }
 }
