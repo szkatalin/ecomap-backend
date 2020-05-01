@@ -13,5 +13,5 @@ export class CreateRecommendedPlaceDto {
   address: CreateAddressDto;
 
   @ApiProperty({ type: () => CreatePlaceCategoryDetailDto, isArray: true })
-  placeCategoryDetails: CreatePlaceCategoryDetailDto[];
+  categoryDetails: CreatePlaceCategoryDetailDto[];
 }

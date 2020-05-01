@@ -5,7 +5,7 @@ import { GetPlacesFilterDto } from './dto/get-places-filter.dto';
 
 @EntityRepository(Place)
 export class PlaceRepository extends Repository<Place> {
-  async getAllPlaces(filterDto: GetPlacesFilterDto) {
+  public async getAllPlaces(filterDto: GetPlacesFilterDto) {
     const { searchField, categories, types } = filterDto;
     const query = this.createQueryBuilder('place')
       .leftJoinAndSelect('place.address', 'address')
@@ -19,7 +19,7 @@ export class PlaceRepository extends Repository<Place> {
     }
 
     if (categories) {
-      let categoriesList = categories.split(',');
+      const categoriesList = categories.split(',');
       for (const category of categoriesList) {
         query.andWhere('placeCategoryDetail.category = :category', {
           category,
@@ -28,7 +28,7 @@ export class PlaceRepository extends Repository<Place> {
     }
 
     if (types) {
-      let typeList = types.split(',');
+      const typeList = types.split(',');
       for (const type of typeList) {
         query.andWhere(`:type = ANY (placeCategoryDetail.types)`, {
           type,
@@ -36,21 +36,22 @@ export class PlaceRepository extends Repository<Place> {
       }
     }
 
-    return await query.getMany();
+    return query.getMany();
   }
 
-  async getPlaceById(id: number): Promise<Place> {
-    return await this.createQueryBuilder('place')
-      .where('place.id = :id', { id: id })
+  public async getPlaceById(id: number): Promise<Place> {
+    return this.createQueryBuilder('place')
+      .where('place.id = :id', { id })
       .leftJoinAndSelect('place.address', 'Address')
+      .leftJoinAndSelect('place.categoryDetails', 'placeCategoryDetail')
       .getOne();
   }
 
-  async createOrUpdatePlace(recommendationId: number) {
+  public async createOrUpdatePlace(recommendationId: number) {
     const recommendation = await this.manager
       .getRepository(Recommendation)
       .createQueryBuilder('recommendation')
-      .leftJoinAndSelect('recommendation.recommendedPlace', 'RecommendedPlace')
+      .leftJoinAndSelect('recommendation.recommendedPlace', 'recommendedPlace')
       .leftJoinAndSelect('recommendedPlace.address', 'Address')
       .leftJoinAndSelect('recommendedPlace.categoryDetails', 'CategoryDetails')
       .leftJoinAndSelect('recommendation.place', 'Place')
@@ -58,11 +59,9 @@ export class PlaceRepository extends Repository<Place> {
       .getOne();
 
     let place: Place;
-    if (recommendation.place) {
-      place = await this.getPlaceById(recommendation.place.id);
-    } else {
-      place = new Place();
-    }
+    place = recommendation.place
+      ? await this.getPlaceById(recommendation.place.id)
+      : new Place();
 
     place.title = recommendation.recommendedPlace.title;
     place.description = recommendation.recommendedPlace.description;
@@ -72,10 +71,10 @@ export class PlaceRepository extends Repository<Place> {
       ? [...place.recommendations, recommendation]
       : [recommendation];
 
-    return await place.save();
+    return place.save();
   }
 
-  async deletePlace(recommendationId: number) {
+  public async deletePlace(recommendationId: number) {
     const recommendation = await this.manager
       .getRepository(Recommendation)
       .createQueryBuilder('recommendation')
@@ -85,6 +84,6 @@ export class PlaceRepository extends Repository<Place> {
 
     const place = await this.getPlaceById(recommendation.place.id);
 
-    return await place.remove();
+    return place.remove();
   }
 }

@@ -9,7 +9,6 @@ import { DecisionType } from './model/decision-type.enum';
 import { PlaceService } from '../place/place.service';
 import { OperationalEvent } from './model/operational-event.entity';
 import { OperationType } from './model/operation-type.enum';
-import { User } from '../user/model/user.entity';
 import { UserService } from '../user/user.service';
 
 @Injectable()
@@ -45,6 +44,8 @@ export class RecommendationService {
     const recommendedPlace = await this.recommendedPlaceRepository.createRecommendedPlace(
       recommendationDto.recommendedPlace
     );
+
+    console.log(recommendedPlace);
 
     return this.recommendationRepository.createPlaceRecommendation(
       user,
@@ -99,5 +100,9 @@ export class RecommendationService {
     }
 
     return operationalEvent;
+  }
+
+  getRecommendationsForUser(userId: string) {
+    return this.recommendationRepository.getRecommendationsForUser(userId);
   }
 }

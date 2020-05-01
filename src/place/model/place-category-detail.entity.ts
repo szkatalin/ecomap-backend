@@ -16,7 +16,7 @@ export class PlaceCategoryDetail {
   category: PlaceCategory;
 
   @ApiProperty({ enum: Object.keys(CategoryTypes), isArray: true })
-  @Column('enum', { enum: CategoryTypes, array: true })
+  @Column('enum', { enum: CategoryTypes, array: true, nullable: true })
   types: CategoryTypes[];
 
   @ApiProperty({ type: () => Place })

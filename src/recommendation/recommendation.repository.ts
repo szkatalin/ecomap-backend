@@ -15,6 +15,8 @@ export class RecommendationRepository extends Repository<Recommendation> {
       .leftJoinAndSelect('recommendedPlace.address', 'Address')
       .leftJoinAndSelect('recommendedPlace.categoryDetails', 'CategoryDetails')
       .leftJoinAndSelect('recommendation.place', 'Place')
+      .leftJoinAndSelect('recommendation.operationalEvent', 'OperationalEvent')
+      .leftJoinAndSelect('recommendation.referralUser', 'User')
       .getMany();
   }
 
@@ -26,6 +28,20 @@ export class RecommendationRepository extends Repository<Recommendation> {
       .leftJoinAndSelect('recommendation.place', 'Place')
       .whereInIds(recommendationId)
       .getOne();
+  }
+
+  getRecommendationsForUser(userId: string) {
+    const query = this.createQueryBuilder('recommendation')
+      .leftJoinAndSelect('recommendation.recommendedPlace', 'recommendedPlace')
+      .leftJoinAndSelect('recommendedPlace.address', 'Address')
+      .leftJoinAndSelect('recommendedPlace.categoryDetails', 'CategoryDetails')
+      .leftJoinAndSelect('recommendation.place', 'Place')
+      .leftJoinAndSelect('recommendation.operationalEvent', 'OperationalEvent')
+      .leftJoinAndSelect('recommendation.referralUser', 'User');
+
+    query.andWhere('User.id = :userId', { userId });
+
+    return query.getMany();
   }
 
   public async createPlaceRecommendation(

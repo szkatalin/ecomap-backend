@@ -8,15 +8,15 @@ import { Address } from '../place/model/address.entity';
 @Injectable()
 @EntityRepository(RecommendedPlace)
 export class RecommendedPlaceRepository extends Repository<RecommendedPlace> {
-  async getAllRecommendedPlaces(): Promise<RecommendedPlace[]> {
-    return await this.manager
+  public async getAllRecommendedPlaces(): Promise<RecommendedPlace[]> {
+    return this.manager
       .createQueryBuilder()
       .select()
       .from(RecommendedPlace, 'recommended_place')
       .getMany();
   }
 
-  async createRecommendedPlace(
+  public async createRecommendedPlace(
     recommendedPlaceDto: CreateRecommendedPlaceDto
   ): Promise<RecommendedPlace> {
     try {
@@ -25,7 +25,7 @@ export class RecommendedPlaceRepository extends Repository<RecommendedPlace> {
       recommendedPlace.title = recommendedPlaceDto.title;
       recommendedPlace.description = recommendedPlaceDto.description;
 
-      let address = new Address();
+      const address = new Address();
       address.city = recommendedPlaceDto.address.city;
       address.country = recommendedPlaceDto.address.country;
       address.postalCode = recommendedPlaceDto.address.postalCode;
@@ -34,10 +34,10 @@ export class RecommendedPlaceRepository extends Repository<RecommendedPlace> {
 
       recommendedPlace.address = await address.save();
 
-      let categoryDetails: PlaceCategoryDetail[] = [];
-      if (recommendedPlaceDto.placeCategoryDetails) {
-        recommendedPlaceDto.placeCategoryDetails.map(async (detail) => {
-          let categoryDetail = new PlaceCategoryDetail();
+      const categoryDetails: PlaceCategoryDetail[] = [];
+      if (recommendedPlaceDto.categoryDetails) {
+        recommendedPlaceDto.categoryDetails.map(async (detail) => {
+          const categoryDetail = new PlaceCategoryDetail();
 
           categoryDetail.category = detail.category;
           categoryDetail.types = detail.types;

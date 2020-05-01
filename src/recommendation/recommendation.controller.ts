@@ -6,7 +6,7 @@ import {
   ParseIntPipe,
   Post,
   UseGuards,
-  ValidationPipe
+  ValidationPipe,
 } from '@nestjs/common';
 import { RecommendationService } from './recommendation.service';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
@@ -24,11 +24,19 @@ import { CreateOperationalEventDto } from './dto/create-operational-event.dto';
 export class RecommendationController {
   constructor(private recommendationService: RecommendationService) {}
 
+  @Get('currentuser')
+  @ApiOperation({ summary: 'Get recommendations for currently logged in user' })
+  public getRecommendationsForUser(@GetUser() user) {
+    console.log(user);
+    const userId = user.sub;
+    return this.recommendationService.getRecommendationsForUser(userId);
+  }
+
   @UseGuards(RoleGuard)
   @Roles(Role.ADMIN, Role.MODERATOR)
-  @Get('all')
+  @Get()
   @ApiOperation({ summary: 'Get all recommendations' })
-  getAllRecommendations(): Promise<Recommendation[]> {
+  public getAllRecommendations(): Promise<Recommendation[]> {
     return this.recommendationService.getAllRecommendations();
   }
 
@@ -36,13 +44,15 @@ export class RecommendationController {
   @Roles(Role.ADMIN, Role.MODERATOR)
   @Get(':id')
   @ApiOperation({ summary: 'Get recommendation by id' })
-  getRecommendationById(@Param('id', ParseIntPipe) recommendationId: number) {
+  public getRecommendationById(
+    @Param('id', ParseIntPipe) recommendationId: number
+  ) {
     return this.recommendationService.getRecommendationById(recommendationId);
   }
 
   @Post()
   @ApiOperation({ summary: 'Add new place recommendation' })
-  createPlaceRecommendation(
+  public createPlaceRecommendation(
     @GetUser() user,
     @Body(new ValidationPipe({ transform: true }))
     recommendationDto: CreateRecommendationDto
@@ -56,7 +66,7 @@ export class RecommendationController {
 
   @Post('places/:id')
   @ApiOperation({ summary: 'Add existing place recommendation' })
-  addExistingPlaceRecommendation(
+  public addExistingPlaceRecommendation(
     @Param('id', ParseIntPipe) placeId: number,
     @GetUser() user,
     @Body(new ValidationPipe({ transform: true }))
@@ -72,7 +82,7 @@ export class RecommendationController {
 
   @Post('places/:id/delete')
   @ApiOperation({ summary: 'Add delete recommendation' })
-  deletePlaceRecommendation(
+  public deletePlaceRecommendation(
     @Param('id', ParseIntPipe) placeId: number,
     @GetUser() user,
     @Body() comment: string
@@ -89,15 +99,16 @@ export class RecommendationController {
   @Roles(Role.ADMIN, Role.MODERATOR)
   @Post(':id/evaluate')
   @ApiOperation({ summary: 'Evaluate recommendation' })
-  evaluateRecommendation(
+  public evaluateRecommendation(
     @Param('id', ParseIntPipe) recommendationId: number,
     @GetUser() user,
     @Body(new ValidationPipe({ transform: true }))
     createOperationalEventDto: CreateOperationalEventDto
   ) {
+    const userId = user.sub;
     return this.recommendationService.evaluateRecommendation(
       recommendationId,
-      user.sub,
+      userId,
       createOperationalEventDto
     );
   }

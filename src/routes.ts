@@ -9,8 +9,9 @@ export default [
   // RECOMMENDATION
   { path: '/recommendations', method: RequestMethod.GET },
   { path: '/recommendations', method: RequestMethod.POST },
-  { path: '/recommendations/:id', method: RequestMethod.POST },
-  { path: '/recommendations/:id/delete', method: RequestMethod.POST },
+  { path: '/recommendations/currentuser', method: RequestMethod.GET },
+  { path: '/recommendations/places/:id', method: RequestMethod.POST },
+  { path: '/recommendations/places/:id/delete', method: RequestMethod.POST },
   { path: '/recommendations/:id', method: RequestMethod.GET },
-  { path: '/recommendations/:id/evaluate', method: RequestMethod.POST }
+  { path: '/recommendations/:id/evaluate', method: RequestMethod.POST },
 ];

@@ -6,22 +6,22 @@ import { Recommendation } from './model/recommendation.entity';
 
 @EntityRepository(OperationalEvent)
 export class OperationalEventRepository extends Repository<OperationalEvent> {
-  async getOperationalEventByRecommendationId(
+  public async getOperationalEventByRecommendationId(
     recommendationId: number
   ): Promise<OperationalEvent> {
-    return await this.createQueryBuilder('operationalEvent')
+    return this.createQueryBuilder('operationalEvent')
       .leftJoinAndSelect('operationalEvent.recommendation', 'recommendation')
       .where('recommendation.id = :id', { id: recommendationId })
       .getOne();
   }
 
-  async isRecommendationEvaluated(recommendationId: number): Promise<boolean> {
+  public async isRecommendationEvaluated(recommendationId: number): Promise<boolean> {
     return !!(await this.getOperationalEventByRecommendationId(
       recommendationId
     ));
   }
 
-  async createOperationalEvent(
+  public async createOperationalEvent(
     recommendationId: number,
     userId: string,
     createOperationalEventDto: CreateOperationalEventDto
@@ -37,6 +37,6 @@ export class OperationalEventRepository extends Repository<OperationalEvent> {
     operationalEvent.decision = createOperationalEventDto.decision;
     operationalEvent.comment = createOperationalEventDto.comment;
 
-    return await operationalEvent.save();
+    return operationalEvent.save();
   }
 }
