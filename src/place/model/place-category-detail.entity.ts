@@ -19,11 +19,11 @@ export class PlaceCategoryDetail {
   @Column('enum', { enum: CategoryTypes, array: true, nullable: true })
   types: CategoryTypes[];
 
-  @ApiProperty({ type: () => Place })
-  @ManyToOne(() => Place, (place) => place.categoryDetails)
+  @ManyToOne(() => Place, (place) => place.categoryDetails, {
+    onDelete: 'CASCADE',
+  })
   place: Place;
 
-  @ApiProperty({ type: () => RecommendedPlace })
   @ManyToOne(
     () => RecommendedPlace,
     (recommendedPlace) => recommendedPlace.categoryDetails

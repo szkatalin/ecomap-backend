@@ -6,7 +6,7 @@ import {
   JoinColumn,
   ManyToOne,
   OneToOne,
-  PrimaryGeneratedColumn
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from '../../user/model/user.entity';
@@ -20,10 +20,9 @@ export class OperationalEvent extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ApiProperty({ type: () => Recommendation })
   @OneToOne(
     () => Recommendation,
-    recommendation => recommendation.operationalEvent
+    (recommendation) => recommendation.operationalEvent
   )
   @JoinColumn()
   recommendation: Recommendation;
@@ -32,11 +31,8 @@ export class OperationalEvent extends BaseEntity {
   @Column('timestamp')
   dateTime: Date;
 
-  @ApiProperty({ type: () => User })
-  @ManyToOne(
-    () => User,
-    user => user.operationalEvents
-  )
+  @ApiProperty({ type: User })
+  @ManyToOne(() => User, (user) => user.operationalEvents)
   reviewerUser: User;
 
   @ApiProperty()
@@ -44,7 +40,7 @@ export class OperationalEvent extends BaseEntity {
   decision: DecisionType;
 
   @ApiProperty()
-  @Column()
+  @Column({ nullable: true })
   @IsOptional()
   comment?: string;
 

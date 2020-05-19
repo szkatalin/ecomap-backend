@@ -1,33 +1,44 @@
-import { Entity, JoinColumn, OneToMany, OneToOne } from 'typeorm';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  JoinColumn,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
-import { BasePlace } from './base-place';
 import { PlaceCategoryDetail } from './place-category-detail.entity';
 import { Address } from './address.entity';
 import { Recommendation } from '../../recommendation/model/recommendation.entity';
 
 @Entity()
-export class Place extends BasePlace {
+export class Place extends BaseEntity {
+  @ApiProperty()
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @ApiProperty()
+  @Column()
+  title: string;
+
+  @ApiProperty()
+  @Column()
+  description: string;
+
   @ApiProperty({ type: Address })
-  @OneToOne(
-    () => Address,
-    address => address.place
-  )
+  @OneToOne(() => Address, (address) => address.place, { onDelete: 'CASCADE' })
   @JoinColumn()
   address: Address;
 
   @ApiProperty({ type: PlaceCategoryDetail, isArray: true })
   @OneToMany(
     () => PlaceCategoryDetail,
-    placeCategoryDetails => placeCategoryDetails.place,
-    { cascade: true }
+    (placeCategoryDetails) => placeCategoryDetails.place,
+    { onDelete: 'CASCADE' }
   )
   categoryDetails: PlaceCategoryDetail[];
 
-  @ApiProperty({ type: Recommendation, isArray: true })
-  @OneToMany(
-    () => Recommendation,
-    recommendations => recommendations.place,
-    { cascade: true }
-  )
+  @OneToMany(() => Recommendation, (recommendations) => recommendations.place)
   recommendations: Recommendation[];
 }

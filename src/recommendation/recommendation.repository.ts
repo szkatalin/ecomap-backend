@@ -17,6 +17,7 @@ export class RecommendationRepository extends Repository<Recommendation> {
       .leftJoinAndSelect('recommendation.place', 'Place')
       .leftJoinAndSelect('recommendation.operationalEvent', 'OperationalEvent')
       .leftJoinAndSelect('recommendation.referralUser', 'User')
+      .orderBy('recommendation.dateTime', 'DESC')
       .getMany();
   }
 
@@ -37,7 +38,8 @@ export class RecommendationRepository extends Repository<Recommendation> {
       .leftJoinAndSelect('recommendedPlace.categoryDetails', 'CategoryDetails')
       .leftJoinAndSelect('recommendation.place', 'Place')
       .leftJoinAndSelect('recommendation.operationalEvent', 'OperationalEvent')
-      .leftJoinAndSelect('recommendation.referralUser', 'User');
+      .leftJoinAndSelect('recommendation.referralUser', 'User')
+      .orderBy('recommendation.dateTime', 'DESC');
 
     query.andWhere('User.id = :userId', { userId });
 

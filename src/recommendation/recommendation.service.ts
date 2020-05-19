@@ -44,9 +44,6 @@ export class RecommendationService {
     const recommendedPlace = await this.recommendedPlaceRepository.createRecommendedPlace(
       recommendationDto.recommendedPlace
     );
-
-    console.log(recommendedPlace);
-
     return this.recommendationRepository.createPlaceRecommendation(
       user,
       recommendationDto,

@@ -6,7 +6,7 @@ import {
   JoinColumn,
   ManyToOne,
   OneToOne,
-  PrimaryGeneratedColumn
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { OperationalEvent } from './operational-event.entity';
@@ -22,10 +22,7 @@ export class Recommendation extends BaseEntity {
   id: number;
 
   @ApiProperty({ type: () => User })
-  @ManyToOne(
-    () => User,
-    user => user.recommendations
-  )
+  @ManyToOne(() => User, (user) => user.recommendations)
   referralUser: User;
 
   @ApiProperty()
@@ -43,25 +40,22 @@ export class Recommendation extends BaseEntity {
   @ApiProperty({ type: () => RecommendedPlace })
   @OneToOne(
     () => RecommendedPlace,
-    recommendedPlace => recommendedPlace.recommendation
+    (recommendedPlace) => recommendedPlace.recommendation
   )
   @JoinColumn()
   recommendedPlace: RecommendedPlace;
 
   @ApiProperty({ type: () => Place })
-  @ManyToOne(
-    () => Place,
-    place => place.recommendations,
-    {
-      nullable: true
-    }
-  )
-  place?: Place;
+  @ManyToOne(() => Place, (place) => place.recommendations, {
+    nullable: true,
+    onDelete: 'CASCADE',
+  })
+  place: Place;
 
-  @ApiProperty({ type: () => OperationalEvent })
+  @ApiProperty({ type: OperationalEvent })
   @OneToOne(
     () => OperationalEvent,
-    operationalEvent => operationalEvent.recommendation
+    (operationalEvent) => operationalEvent.recommendation
   )
   operationalEvent: OperationalEvent;
 

@@ -2,7 +2,6 @@ import {
   BaseEntity,
   Column,
   Entity,
-  ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -36,12 +35,13 @@ export class Address extends BaseEntity {
   @Column('float', { array: true, nullable: true })
   coordinates?: number[];
 
-  @OneToOne(() => Place, (place) => place.address)
+  @OneToOne(() => Place, (place) => place.address, { onDelete: 'CASCADE' })
   place: Place;
 
-  @ManyToOne(
+  @OneToOne(
     () => RecommendedPlace,
-    (recommendedPlace) => recommendedPlace.address
+    (recommendedPlace) => recommendedPlace.address,
+    { onDelete: 'CASCADE' }
   )
   recommendedPlace: RecommendedPlace;
 }

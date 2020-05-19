@@ -15,19 +15,15 @@ export class User {
   @Column({ type: 'enum', enum: Role, default: Role.USER })
   role: Role;
 
-  @ApiProperty({ type: () => OperationalEvent, isArray: true })
   @OneToMany(
     () => OperationalEvent,
-    operationEvents => operationEvents.reviewerUser,
-    { cascade: true }
+    (operationEvents) => operationEvents.reviewerUser
   )
   operationalEvents: OperationalEvent[];
 
-  @ApiProperty({ type: () => Recommendation, isArray: true })
   @OneToMany(
     () => Recommendation,
-    recommendation => recommendation.referralUser,
-    { cascade: true }
+    (recommendation) => recommendation.referralUser
   )
   recommendations: Recommendation[];
 }

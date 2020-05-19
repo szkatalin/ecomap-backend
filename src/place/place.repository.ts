@@ -13,7 +13,7 @@ export class PlaceRepository extends Repository<Place> {
 
     if (searchField) {
       query.andWhere(
-        '(place.title LIKE :searchField OR place.description LIKE :searchField)',
+        '(LOWER(place.title) LIKE LOWER(:searchField) OR LOWER(place.description) LIKE LOWER(:searchField))',
         { searchField: `%${searchField}%` }
       );
     }
@@ -83,7 +83,9 @@ export class PlaceRepository extends Repository<Place> {
       .getOne();
 
     const place = await this.getPlaceById(recommendation.place.id);
-
+    recommendation.place = place.recommendations = null;
+    await recommendation.save();
+    await place.save();
     return place.remove();
   }
 }

@@ -6,7 +6,7 @@ import {
   Query,
   ValidationPipe,
 } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { PlaceService } from './place.service';
 import { Place } from './model/place.entity';
 import { GetPlacesFilterDto } from './dto/get-places-filter.dto';
@@ -16,8 +16,9 @@ import { GetPlacesFilterDto } from './dto/get-places-filter.dto';
 export class PlaceController {
   constructor(private placeService: PlaceService) {}
 
-  @Get()
   @ApiOperation({ summary: 'Get places' })
+  @ApiOkResponse({ type: Place, isArray: true })
+  @Get()
   public getPlaces(
     @Query(ValidationPipe) filterDto: GetPlacesFilterDto
   ): Promise<Place[]> {
@@ -26,6 +27,7 @@ export class PlaceController {
 
   @Get(':id')
   @ApiOperation({ summary: 'Get place by id' })
+  @ApiOkResponse({ type: Place })
   public getPlaceById(
     @Param('id', ParseIntPipe) placeId: number
   ): Promise<Place> {
