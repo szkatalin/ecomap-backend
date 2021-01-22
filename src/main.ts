@@ -24,7 +24,7 @@ async function bootstrap() {
 
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
-  app.enableCors({origin: true});
+  app.enableCors({origin: true, credentials: true});
 
   app.use(session({
     secret: 'my-secret',
