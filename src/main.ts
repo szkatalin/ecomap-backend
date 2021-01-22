@@ -22,7 +22,7 @@ async function bootstrap() {
 
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
-  app.enableCors();
+  app.enableCors({origin: true});
 
   const port = process.env.PORT || '3000';
   logger.log('App is running on port: ' + port);
