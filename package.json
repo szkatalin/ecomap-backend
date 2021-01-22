@@ -39,6 +39,7 @@
       "cors": "^2.8.4",
       "dotenv": "^8.0.0",
       "express-jwt": "^5.3.1",
+      "express-session": "^1.17.1",
       "jsonwebtoken": "^8.5.0",
       "jwks-rsa": "^1.7.0",
       "morgan": "^1.9.0",
@@ -57,6 +58,7 @@
       "typescript": "~3.5.0"
    },
    "devDependencies": {
+      "@types/express-session": "^1.17.3",
       "@types/jsonwebtoken": "^8.3.2",
       "@types/node": "^12.12.27",
       "@types/passport-jwt": "^3.0.1",
